@@ -2,7 +2,7 @@
 
 ### Данный playbook создан в рамках дипломного проекта по "Дипломный практикум в Yandex.Cloud"
 
-####performed by Kirill Karagodin
+#### performed by Kirill Karagodin
 
 Playbook содержит в себе первоначальную установку ПО в созданной инфраструктуре **Yandex.Cloud**
 и включает в себя:
