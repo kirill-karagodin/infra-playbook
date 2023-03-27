@@ -9,7 +9,7 @@ resource "yandex_lb_network_load_balancer" "prod-lb" {
     }
   }
     attached_target_group {
-    target_group_id = yandex_lb_target_group.ptg.load_balancer[0].target_group_id
+    target_group_id = "${yandex_lb_target_group.ptg.id}"
 
     healthcheck {
       name = "http"
@@ -35,7 +35,7 @@ resource "yandex_lb_network_load_balancer" "stage-lb" {
     }
   }
     attached_target_group {
-    target_group_id = yandex_lb_target_group.stg.load_balancer[0].target_group_id
+    target_group_id = "${yandex_lb_target_group.stg.id}"
 
     healthcheck {
       name = "http"
