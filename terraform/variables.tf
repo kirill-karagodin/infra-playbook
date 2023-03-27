@@ -15,7 +15,7 @@ variable "zone" {
 }
 # User
 variable "user" {
-  default = "cenos"
+  default = "centos"
 }
 #########################################################
 # Group-1

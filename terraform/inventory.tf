@@ -20,7 +20,7 @@ all:
         jenkins_masters:
           hosts:
             jenkins-master-01:
-		jenkins_agent:
+        jenkins_agent:
           hosts:
             jenkins-agent-stage:
             jenkins-agent-prod:
