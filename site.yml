@@ -5,20 +5,18 @@
 
 # Install Grafana
 - name: Install Grafana on master server
+  hosts: grafana-master
   import_tasks: tasks/grafana_task.yml
 
 # Install Prometheus on master server
 - name: Install Prometheus on master server
+  hosts: grafana-master
   import_tasks: tasks/prometheus_task.yml
 
-# Install K8s Dashboard  on master server
-- name: Install K8s Dashboard on master server
-  import_tasks: tasks/Dashboard.yml
-
 # Out URL
-  post_tasks:
-    - name: Show connect URL's
-      debug:
-        msg: "Jenkins Master http://{{ ansible_host }}"
-        msg: "Grafana http://{{ ansible_host }}"
-        msg: "K8s Dashboard http://{{ ansible_host }}8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/"
+#  post_tasks:
+#    - name: Show connect URL's
+#      debug:
+#        msg: "Jenkins Master http://{{ ansible_host }}"
+#        msg: "Grafana http://{{ ansible_host }}"
+
