@@ -1,10 +1,12 @@
 resource "yandex_lb_network_load_balancer" "prod-lb" {
   name = "lb-prod"
+  type = "internal"
 
   listener {
     name = "lb-listener"
     port = 80
-    external_address_spec {
+    internal_address_spec {
+      subnet_id = "${yandex_vpc_subnet.prod.id}"
       ip_version = "ipv4"
     }
   }
@@ -26,11 +28,13 @@ resource "yandex_lb_network_load_balancer" "prod-lb" {
 
 resource "yandex_lb_network_load_balancer" "stage-lb" {
   name = "lb-stage"
+  type = "internal"
 
   listener {
     name = "lb-listener"
     port = 80
-    external_address_spec {
+    internal_address_spec {
+      subnet_id = "${yandex_vpc_subnet.stage.id}"
       ip_version = "ipv4"
     }
   }
