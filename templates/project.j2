@@ -1,0 +1,80 @@
+# Proxy Jenkins
+server {
+    listen 80 8080;
+    server_name 158.160.55.243 jenkins.karagodin-ka.ru;
+
+    client_max_body_size 20m;
+    keepalive_request 1000;
+    keepalive_timeout 120s;
+
+    access_log /var/log/nginx/jenkins.log main;
+    error_log /var/log/nginx/jenkins_error.log debug;
+
+    location / {
+             proxy_pass http://10.200.80.4:8080;
+             proxy_set_header Connection "";
+             proxy_set_header X-Forward-For $proxy_add_x_forward_for;
+             proxy_http_version 1.1;
+    }
+}
+
+# Proxy grafana
+server {
+    listen 80 3000;
+    server_name 158.160.55.243 grafana.karagodin-ka.ru;
+
+    client_max_body_size 20m;
+    keepalive_request 1000;
+    keepalive_timeout 120s;
+
+    access_log /var/log/nginx/grafana.log main;
+    error_log /var/log/nginx/grafana_error.log debug;
+
+    location / {
+             proxy_pass http://10.200.80.7:3000;
+             proxy_set_header Connection "";
+             proxy_set_header X-Forward-For $proxy_add_x_forward_for;
+             proxy_http_version 1.1;
+    }
+}
+
+# Proxy test app for prod
+server {
+    listen 80 ;
+    server_name web.karagodin-ka.ru;
+
+    client_max_body_size 20m;
+    keepalive_request 1000;
+    keepalive_timeout 120s;
+
+    access_log /var/log/nginx/web.log main;
+    error_log /var/log/nginx/web_error.log debug;
+
+    location / {
+             proxy_pass http://10.200.110.4;
+             proxy_set_header Connection "";
+             proxy_set_header X-Forward-For $proxy_add_x_forward_for;
+             proxy_http_version 1.1;
+    }
+}
+
+# Proxy test app for stage
+server {
+    listen 80 ;
+    server_name test-web.karagodin-ka.ru;
+
+    client_max_body_size 20m;
+    keepalive_request 1000;
+    keepalive_timeout 120s;
+
+    access_log /var/log/nginx/test-web.log main;
+    error_log /var/log/nginx/test-web_error.log debug;
+
+    location / {
+             proxy_pass http://10.200.100.6;
+             proxy_set_header Connection "";
+             proxy_set_header X-Forward-For $proxy_add_x_forward_for;
+             proxy_http_version 1.1;
+    }
+}
+
