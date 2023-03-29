@@ -1,6 +1,6 @@
 # Proxy Jenkins
 server {
-    listen 80 8080;
+    listen 80;
     server_name 158.160.55.243 jenkins.karagodin-ka.ru;
 
     client_max_body_size 20m;
@@ -20,7 +20,7 @@ server {
 
 # Proxy grafana
 server {
-    listen 80 3000;
+    listen 80 9000;
     server_name 158.160.55.243 grafana.karagodin-ka.ru;
 
     client_max_body_size 20m;

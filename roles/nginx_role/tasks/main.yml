@@ -3,7 +3,7 @@
 - name: Install Nginx
   import_tasks: install/yum.yml
   when:
-    - ansible_pkg_mgr == 'yum'
+#    - ansible_pkg_mgr == 'yum'
 
 - name: Deploy config
   import_tasks: configure.yml

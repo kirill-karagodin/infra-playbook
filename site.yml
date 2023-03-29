@@ -169,3 +169,16 @@
          dest: /etc/nginx/conf.d/project.conf
          mode: 0644
       notify: Start nginx service
+# Install and configure Grafana
+- name: Install Grafana+Prometeus+Alertmanager
+  host: grafana
+  tasks:
+    - name: Install Grafana
+      become: true
+      yum:
+        name: grafana
+        state: present
+      notify: Start grafana service
+    - name: Install Prometeus
+      import_tasks: tasks/prometheus.yml
+
