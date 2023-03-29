@@ -1,0 +1,37 @@
+--- 
+all:
+  all:
+  hosts:
+    jenkins-master-01:
+      ansible_host: 158.160.62.255
+    jenkins-agent-stage:
+      ansible_host: 62.84.112.130
+    jenkins-agent-prod:
+      ansible_host: 130.193.51.32
+    grafana-master-01:
+      ansible_host: 158.160.59.119
+    prometheus-master-01:
+      ansible_host: 158.160.59.119
+  children:
+    jenkins:
+      children:
+        jenkins_masters:
+          hosts:
+            jenkins-master-01:
+        jenkins_agents:
+          hosts:
+            jenkins-agent-stage:
+            jenkins-agent-prod:
+    grafana:
+      children:
+        grafana-master:
+          hosts:
+            grafana-master-01:
+    prometheus:
+      children:
+        prometheus-master:
+          hosts:
+            prometheus-master-01:
+  vars:
+    ansible_connection_type: paramiko
+    ansible_user: cloud-user
