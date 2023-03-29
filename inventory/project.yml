@@ -12,6 +12,8 @@ all:
       ansible_host: 158.160.59.119
     prometheus-master-01:
       ansible_host: 158.160.59.119
+    nginx-bl:
+      ansible_host: 158.160.55.243
   children:
     jenkins:
       children:

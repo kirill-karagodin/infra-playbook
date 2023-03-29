@@ -149,3 +149,8 @@
       until: install_agent is succeeded
       retries: 10
       timeout: 10
+
+- name: Install nginx
+  hosts: [host]
+  roles:
+    - nginx_role

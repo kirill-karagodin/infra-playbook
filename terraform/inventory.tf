@@ -14,6 +14,8 @@ all:
       ansible_host: ${yandex_compute_instance.grafana.network_interface.0.nat_ip_address}
     prometheus-master-01:
       ansible_host: ${yandex_compute_instance.grafana.network_interface.0.nat_ip_address}
+    nginx-bl: ${yandex_compute_instance.nginx-bl.network_interface.0.nat_ip_address}
+      ansible_host:
   children:
     jenkins:
       children:
