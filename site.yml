@@ -59,6 +59,7 @@
       with_items: "{{ groups.jenkins_agents }}"
     - name: Start Jenkins
       become: true
+      become_user: root
       systemd:
         name: jenkins
         state: restarted
@@ -93,6 +94,7 @@
         name:
           - git
           - python3
+          - python3.9
           - docker-ce
           - docker-ce-cli
           - containerd.io
@@ -109,10 +111,10 @@
         executable: pip3
         name:
           - selinux
-          - ansible<3.0
+          - ansible<2.13
         state: present
     - name: Reinstall Selinux
-      become_user: root
+      become_user: cloud-user
       pip:
         executable: pip3
         name:
@@ -147,12 +149,3 @@
       until: install_agent is succeeded
       retries: 10
       timeout: 10
-# Install Grafana + Prometheus
-- name: Grafana on master server
-  hosts: grafana-master
-  roles:
-     - ansible-grafana
-- name: Prometheus on master server
-  hosts: grafana-master
-  roles:
-     - ansible-prometheus 

@@ -15,7 +15,7 @@ variable "zone" {
 }
 # User
 variable "user" {
-  default = "centos"
+  default = "cloud-user"
 }
 #########################################################
 # Group-1
@@ -43,7 +43,7 @@ variable "grafana" {
 
 # Image for all servers
 variable "image_instance" {
-  default = "fd88d14a6790do254kj7"
+  default = "fd8sni054daiudopdnfe"
 }
 # CPU core
 variable "instance_cores" {
@@ -101,7 +101,7 @@ variable "ipv4_internals_grafana" {
 
 # Image for all k8s nodes
 variable "image_node" {
-  default = "fd88d14a6790do254kj7"
+  default = "fd8sni054daiudopdnfe"
 }
 # CPU core
 variable "node_cores" {
