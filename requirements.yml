@@ -1,5 +1,5 @@
 ---
 - name: nginx_role
-    src: git@github.com:kirill-karagodin/nginx_role.git
-    scm: git
-    version: "1.0.2"
+  src: git@github.com:kirill-karagodin/nginx-role.git
+  scm: git
+  version: "1.0.2"

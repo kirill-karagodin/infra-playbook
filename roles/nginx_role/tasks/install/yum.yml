@@ -1,0 +1,13 @@
+---
+# tasks file for install nginx
+- name: Install epel-release
+  become: true
+  yum:
+    name: epel-release
+    state: present
+- name: Install Nginx (yum)
+  become: true
+  yum:
+     name: nginx
+     state: present
+  notify: Start nginx service

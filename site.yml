@@ -152,7 +152,7 @@
       timeout: 10
 # Install and configure Nginx
 - name: Install nginx
-  hosts: [host]
+  hosts: nginx-bl
   roles:
     - nginx_role
 - name: Configure Nginx

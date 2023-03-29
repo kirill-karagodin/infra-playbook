@@ -1,0 +1,9 @@
+---
+# Deploy config
+- name: Create Nginx config
+  become: true
+  template:
+    src: nginx.j2
+    dest: /etc/nginx/nginx.conf
+    mode: 0644
+  notify: Start nginx service
