@@ -1,7 +1,7 @@
 ---
 - name: restart the prometheus service
   service:
-    name: "{{ service_name }}"
+    name: "{{ serv_name }}"
     state: restarted
   listen: event_restart_prometheus
 

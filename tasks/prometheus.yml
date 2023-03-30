@@ -2,14 +2,14 @@
 - name: create prometheus system group
   become: true
   group:
-    name: "{{ prometheus_group }}"
+    name: "{{ prometheus_user_group }}"
     state: present
 
 - name: create prometheus system user
   become: true
   user:
-    name: "{{ prometheus_user }}"
-    group: "{{ prometheus_group }}"
+    name: "{{ prometheus_user_name }}"
+    group: "{{ prometheus_user_group }}"
     system: true
     shell: "/sbin/nologin"
     comment: "prometheus nologin user"
@@ -19,8 +19,8 @@
 - name: download prometheus binary to local folder
   become: false
   get_url:
-    url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
-    dest: "/tmp/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+    url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_ver }}/prometheus-{{ prometheus_ver }}.linux-amd64.tar.gz"
+    dest: "/tmp/prometheus/prometheus-{{ prometheus_ver }}.linux-amd64.tar.gz"
   register: _download_archive
   until: _download_archive is succeeded
   retries: 5
@@ -31,18 +31,18 @@
 - name: unpack prometheus binaries
   become: false
   unarchive:
-    src: "/tmp/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+    src: "/tmp/prometheus-{{ prometheus_ver }}.linux-amd64.tar.gz"
     dest: "/tmp"
-    creates: "/tmp/prometheus-{{ prometheus_version }}.linux-amd64/prometheus"
+    creates: "/tmp/prometheus-{{ prometheus_ver }}.linux-amd64/prometheus"
   delegate_to: localhost
   check_mode: false
 
 - name: propagate prometheus and promtool binaries
   copy:
-    src: "/tmp/prometheus-{{ prometheus_version }}.linux-amd64/{{ item }}"
+    src: "/tmp/prometheus-{{ prometheus_ver }}.linux-amd64/{{ item }}"
     dest: "/usr/local/bin/{{ item }}"
-    owner: "{{ prometheus_user }}"
-    group: "{{ prometheus_group }}"
+    owner: "{{ prometheus_user_name }}"
+    group: "{{ prometheus_user_group }}"
     mode: 0755
   with_items:
     - prometheus
@@ -50,48 +50,48 @@
 
 - name: create prometheus data directory
   file:
-    path: "{{ prometheus_data_dir }}"
+    path: "{{ prometheus_dir }}"
     state: directory
-    owner: "{{ prometheus_user }}"
-    group: "{{ prometheus_group }}"
+    owner: "{{ prometheus_user_name }}"
+    group: "{{ prometheus_user_group }}"
     mode: 0755
 
 - name: create prometheus config directory
   file:
-    path: "{{ prometheus_config_dir }}"
+    path: "{{ prometheus_confdir }}"
     state: directory
-    owner: "{{ prometheus_user }}"
-    group: "{{ prometheus_group }}"
+    owner: "{{ prometheus_user_name }}"
+    group: "{{ prometheus_user_group }}"
     mode: 0755
 
 - name: propagate official console templates
   copy:
     src: "/tmp/prometheus-{{ prometheus_version }}.linux-amd64/{{ item }}/"
-    dest: "{{ prometheus_config_dir }}/{{ item }}/"
+    dest: "{{ prometheus_confdir }}/{{ item }}/"
     mode: 0644
-    owner: "{{ prometheus_user }}"
-    group: "{{ prometheus_group }}"
+    owner: "{{ prometheus_user_name }}"
+    group: "{{ prometheus_user_group }}"
   with_items:
     - console_libraries
     - consoles
 
 - name: delete prometheus tmp folder and .tar.gz file
   file:
-    path: "{{ item }}"
+    path: "/tmp/prometheus"
     state: absent
   with_items:
-    - /tmp/prometheus-{{ prometheus_version }}.linux-amd64
-    - /tmp/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz
+    - /tmp/prometheus-{{ prometheus_ver }}.linux-amd64
+    - /tmp/prometheus-{{ prometheus_ver }}.linux-amd64.tar.gz
 
 - name: configure prometheus
   template:
-    src: "{{ prometheus_config_file }}"
-    dest: "{{ prometheus_config_dir }}/prometheus.conf"
+    src: "{{ prometheus_conffile }}"
+    dest: "{{ prometheus_confdir }}/prometheus.conf"
 
 - name: alert config file
   copy:
-    src: "{{ role_path }}/files/alertrules.yml"
-    dest: /etc/prometheus/alert.rules.yml
+    src: "files/alertrules.yml"
+    dest: //etc/prometheus/alert.rules.yml
 
 - name: create systemd service unit
   template:
@@ -101,7 +101,7 @@
 
 - name: start prometheus service
   service:
-    name: "{{ service_name }}"
+    name: "{{ serv_name }}"
     state: started
     enabled: yes
 

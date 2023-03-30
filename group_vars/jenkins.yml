@@ -8,17 +8,3 @@ java_packages:
   - java-11-openjdk
 jenkins_agent_dir: /opt/jenkins_agent/
 
-# for prometheus
-prometheus_version: "2.43.0"
-prometheus_user: "{{ prometheus_user_name }}"
-prometheus_group: "{{ prometheus_user_group }}"
-prometheus_user_name: prometheus
-prometheus_user_group: prometheus
-
-prometheus_data_dir: /data/prometheus
-prometheus_config_dir: /etc/prometheus
-prometheus_config_file: "prometheus.conf.j2"
-
-service_name: "prometheus"
-service_exec_command: "/usr/local/bin/prometheus --config.file=/etc/prometheus/prometheus.conf --storage.tsdb.path=/data/prometheus --storage.tsdb.retention=2d"
-
