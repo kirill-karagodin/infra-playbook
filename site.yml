@@ -191,7 +191,3 @@
         serv_name: "prometheus"
         service_exec: "/usr/local/bin/prometheus --config.file=/etc/prometheus/prometheus.conf --storage.tsdb.path=/data/prometheus --storage.tsdb.retention=2d"
       import_tasks: tasks/prometheus.yml
-    - name: Install Alertmanager
-      roles:
-        - alertmanager_role
-
