@@ -179,18 +179,14 @@
       get_url:
         url: "{{ grafana_download_url }}"
         dest: "/tmp/grafana-{{ grafana_version }}-1.x86_64.rpm"
-    - name: Install RPM
+    - name: Install RPM package
+      shell: sudo yum -y install /tmp/grafana-{{ grafana_version }}-1.x86_64.rpm
+    - name: Copy Grafana configure file
       become: yes
-      yum:
-         name: "/tmp/grafana-{{ grafana_version }}-1.x86_64.rpm"
-         state: present
+      template:
+        src: "grafana.ini.j2"
+        dest: "/etc/grafana/grafana.ini"
       notify: Start grafana service
-      with_items:
-        - /tmp/grafana-{{ grafana_version }}-1.x86_64.rpm
-#    - name: Install
-#      yum:
-#        name: grafana.x86_64
-#      notify: Start grafana service
     - name: Install Prometeus
       vars:
         prometheus_ver: "2.43.0"
