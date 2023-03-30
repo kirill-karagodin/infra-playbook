@@ -174,12 +174,23 @@
 - name: Install Grafana
   hosts: grafana
   tasks:
-    - name: Install
+    - name: Get package
+      become: yes
+      get_url:
+        url: "{{ grafana_download_url }}"
+        dest: "/tmp/grafana-{{ grafana_version }}-1.x86_64.rpm"
+    - name: Install RPM
       become: yes
       yum:
-        name: grafana.x86_64
-        state: present
+         name: "/tmp/grafana-{{ grafana_version }}-1.x86_64.rpm"
+         state: present
       notify: Start grafana service
+      with_items:
+        - /tmp/grafana-{{ grafana_version }}-1.x86_64.rpm
+#    - name: Install
+#      yum:
+#        name: grafana.x86_64
+#      notify: Start grafana service
     - name: Install Prometeus
       vars:
         prometheus_ver: "2.43.0"
