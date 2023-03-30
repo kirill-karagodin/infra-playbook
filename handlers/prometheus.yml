@@ -5,6 +5,6 @@
     state: restarted
   listen: event_restart_prometheus
 
-- name: reload systemd
+- name: reload_systemd
   command: systemctl daemon-reload
   listen: reload_systemd

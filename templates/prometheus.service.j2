@@ -5,7 +5,7 @@ After=network-online.target
 
 [Service]
 User={{ prometheus_user_name }}
-Group={{ prometheus_group_name }}
+Group={{ prometheus_user_group }}
 Restart=always
 RestartSec=2
 StartLimitInterval=0
