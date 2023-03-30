@@ -181,5 +181,16 @@
         state: present
       notify: Start grafana service
     - name: Install Prometeus
+      set_fact:
+        prometheus_ver: "2.43.0"
+        prometheus_user_name: "prometheus"
+        prometheus_user_group: "prometheus"
+
+        prometheus_dir: /data/prometheus
+        prometheus_confdir: /etc/prometheus
+        prometheus_conffile: "prometheus.conf.j2"
+
+        serv_name: "prometheus"
+        service_exec: "/usr/local/bin/prometheus --config.file=/etc/prometheus/prometheus.conf --storage.tsdb.path=/data/prometheus --storage.tsdb.retention=2d"
       import_tasks: tasks/prometheus.yml
 
