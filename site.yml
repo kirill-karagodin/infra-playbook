@@ -156,6 +156,7 @@
   roles:
     - nginx_role
 - name: Configure Nginx
+  hosts: nginx-bl
   tasks:
     - name: Create conf.d dir
       become: true
@@ -170,13 +171,13 @@
          mode: 0644
       notify: Start nginx service
 # Install and configure Grafana
-- name: Install Grafana+Prometeus+Alertmanager
-  host: grafana
+- name: Install Grafana
+  hosts: grafana
   tasks:
-    - name: Install Grafana
-      become: true
+    - name: Install
+      become: yes
       yum:
-        name: grafana
+        name: grafana.x86_64
         state: present
       notify: Start grafana service
     - name: Install Prometeus
