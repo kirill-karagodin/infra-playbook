@@ -10,3 +10,29 @@ scrape_configs:
     honor_labels: true
     static_configs:
       - targets: ['localhost:9091']
+
+  - job_name: 'node_exporter_clients_infra'
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - 10.200.80.3:9100
+          - 10.200.80.4:9100
+          - 10.200.80.5:9100
+          - 10.200.80.6:9100
+          - 10.200.80.7:9100
+
+  - job_name: 'node_exporter_clients_prod_k8s'
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - 10.200.110.11:9100
+          - 10.200.110.12:9100
+          - 10.200.110.13:9100
+
+  - job_name: 'node_exporter_clients_stage_k8s'
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - 10.200.100.11:9100
+          - 10.200.100.12:9100
+          - 10.200.100.13:9100

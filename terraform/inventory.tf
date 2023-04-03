@@ -113,3 +113,47 @@ calico_rr
     DOC
   filename = "../inventory/k8s-prod.ini"
 }
+
+resource "local_file" "prometheus-conf" {
+  content = <<-DOC
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'pushgateway'
+    honor_labels: true
+    static_configs:
+      - targets: ['localhost:9091']
+
+  - job_name: 'node_exporter_clients_infra'
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - ${yandex_compute_instance.nginx-bl.network_interface.0.ip_address}:9100
+          - ${yandex_compute_instance.jenkins-master.network_interface.0.ip_address}:9100
+          - ${yandex_compute_instance.prod-agent1.network_interface.0.ip_address}:9100
+          - ${yandex_compute_instance.stage-agent1.network_interface.0.ip_address}:9100
+          - ${yandex_compute_instance.grafana.network_interface.0.ip_address}:9100
+
+  - job_name: 'node_exporter_clients_prod_k8s'
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - ${yandex_compute_instance.prod-node1.network_interface.0.ip_address}:9100
+          - ${yandex_compute_instance.prod-node2.network_interface.0.ip_address}:9100
+          - ${yandex_compute_instance.prod-node3.network_interface.0.ip_address}:9100
+
+  - job_name: 'node_exporter_clients_stage_k8s'
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - ${yandex_compute_instance.stage-node1.network_interface.0.ip_address}:9100
+          - ${yandex_compute_instance.stage-node2.network_interface.0.ip_address}:9100
+          - ${yandex_compute_instance.stage-node3.network_interface.0.ip_address}:9100
+    DOC
+  filename = "../templates/prometheus.conf.j2"
+}
